@@ -10,6 +10,9 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
+# Set Redis connection string as env var
+ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
+
 EXPOSE 80
 
-CMD ["/yag", "-all", "-web", "-pa", "-redis", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"]
+CMD ["/yag", "-all", "-web", "-pa"]
