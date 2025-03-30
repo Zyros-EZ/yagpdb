@@ -10,10 +10,10 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
-# 🔧 Create the script that injects REDIS_URL
-RUN echo '#!/bin/sh\nexport REDIS_URL="redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
+# ✅ Set correct env var that YAGPDB actually looks for
+ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
 
 EXPOSE 80
 
-# 🚀 This tells Docker to actually use the script!
-ENTRYPOINT ["/entrypoint.sh"]
+# ✅ Directly run without any shell overrides
+CMD ["/yag", "-all", "-web", "-pa"]
