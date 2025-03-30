@@ -48,9 +48,6 @@ import (
 )
 
 func main() {
-	// Hardcode REDIS URL explicitly before init
-	os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
-
 	// Ensure it binds to the right port for Railway
 	port := os.Getenv("PORT")
 	if port != "" {
