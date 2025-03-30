@@ -10,8 +10,8 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
-# Add wrapper to inject REDIS env before launch
-RUN echo '#!/bin/sh\nexport REDIS="redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
+# 🧠 Set REDIS_URL — this is what YAGPDB actually reads
+RUN echo '#!/bin/sh\nexport REDIS_URL="redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 
