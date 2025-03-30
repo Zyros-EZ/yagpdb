@@ -8,12 +8,11 @@ RUN go build -o /yag .
 
 FROM debian:bookworm-slim
 
-# Copy binary
 COPY --from=builder /yag /yag
 
-# Write entrypoint script that sets REDIS from REDIS_URL
-RUN echo '#!/bin/sh\nexport REDIS="$REDIS_URL"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
+# Inject REDIS env var for the app (no -redis flag!)
+ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
 
 EXPOSE 80
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/yag", "-all", "-web", "-pa"]
