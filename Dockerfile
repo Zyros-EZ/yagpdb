@@ -11,7 +11,6 @@ FROM debian:bookworm-slim
 COPY --from=builder /yag /yag
 
 EXPOSE 8080
-ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
 
 CMD ["/yag", "-all", "-web", "-pa"]
 
