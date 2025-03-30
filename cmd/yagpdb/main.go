@@ -6,6 +6,7 @@ import (
 
 	"github.com/botlabs-gg/yagpdb/v2/analytics"
 	"github.com/botlabs-gg/yagpdb/v2/antiphishing"
+	"github.com/botlabs-gg/yagpdb/v2/common"
 	"github.com/botlabs-gg/yagpdb/v2/common/featureflags"
 	"github.com/botlabs-gg/yagpdb/v2/common/prom"
 	"github.com/botlabs-gg/yagpdb/v2/common/run"
@@ -47,13 +48,18 @@ import (
 	"github.com/botlabs-gg/yagpdb/v2/youtube"
 )
 
-func main() {
-	// Ensure it binds to the right port for Railway
+func init() {
+	// ✅ Hardcode the Redis URL into YAGPDB's config directly
+	common.RedisURL = "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"
+
+	// ✅ Bind to correct port on Railway
 	port := os.Getenv("PORT")
 	if port != "" {
 		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
 	}
+}
 
+func main() {
 	run.Init()
 
 	paginatedmessages.RegisterPlugin()
