@@ -12,4 +12,4 @@ COPY --from=builder /yag /yag
 
 EXPOSE 8080
 
-CMD ["/yag", "-all", "-web", "-pa", "-redis", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"]
+CMD ["/yag", "-all", "-web", "-pa"]
