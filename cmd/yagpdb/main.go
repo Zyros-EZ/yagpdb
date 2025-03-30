@@ -47,16 +47,28 @@ import (
 )
 
 func main() {
+	// Use the REDIS environment variable for the Redis URL
+	redisURL := os.Getenv("REDIS")
+	if redisURL == "" {
+		fmt.Println("No Redis URL set in environment. Exiting...")
+		os.Exit(1)
+	}
+
 	// Ensure proper binding on Railway
 	port := os.Getenv("PORT")
 	if port != "" {
 		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
 	}
 
+	// Set Redis connection URL (this ensures it's using the correct Redis URL from the environment)
+	os.Setenv("REDIS", redisURL)
+
 	run.Init()
 
+	// Register plugins
 	paginatedmessages.RegisterPlugin()
 	discorddata.RegisterPlugin()
+
 	analytics.RegisterPlugin()
 	safebrowsing.RegisterPlugin()
 	antiphishing.RegisterPlugin()
@@ -93,6 +105,7 @@ func main() {
 	prom.RegisterPlugin()
 	featureflags.RegisterPlugin()
 	trivia.RegisterPlugin()
+
 	confusables.Init()
 	run.Run()
 }
