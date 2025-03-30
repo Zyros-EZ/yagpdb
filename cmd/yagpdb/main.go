@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/botlabs-gg/yagpdb/v2/analytics"
 	"github.com/botlabs-gg/yagpdb/v2/antiphishing"
 	"github.com/botlabs-gg/yagpdb/v2/common/featureflags"
@@ -45,13 +48,20 @@ import (
 )
 
 func main() {
+	// Hardcode REDIS URL explicitly before init
+	os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
+
+	// Ensure it binds to the right port for Railway
+	port := os.Getenv("PORT")
+	if port != "" {
+		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
+	}
+
 	run.Init()
 
-	//BotSession.LogLevel = discordgo.LogInformational
 	paginatedmessages.RegisterPlugin()
 	discorddata.RegisterPlugin()
 
-	// Setup plugins
 	analytics.RegisterPlugin()
 	safebrowsing.RegisterPlugin()
 	antiphishing.RegisterPlugin()
@@ -89,7 +99,6 @@ func main() {
 	featureflags.RegisterPlugin()
 	trivia.RegisterPlugin()
 
-	// Register confusables replacer
 	confusables.Init()
 
 	run.Run()
