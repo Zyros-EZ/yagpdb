@@ -47,12 +47,12 @@ import (
 )
 
 func main() {
-    // Use the REDIS environment variable for the Redis URL
     redisURL := os.Getenv("REDIS")
     if redisURL == "" {
-        fmt.Println("No Redis URL set in environment. Exiting...")
-        os.Exit(1)
+        // Default Redis URL for the containerized Redis setup
+        redisURL = "redis://redis:6379"  // This is the name of your Redis container
     }
+
 
     // Ensure proper binding on Railway (for the PORT environment variable)
     port := os.Getenv("PORT")
