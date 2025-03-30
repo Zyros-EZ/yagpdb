@@ -12,4 +12,6 @@ COPY --from=builder /yag /yag
 
 EXPOSE 80
 
+ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
+
 CMD ["/yag", "-all", "-web", "-pa"]
