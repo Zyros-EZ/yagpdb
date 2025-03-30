@@ -8,11 +8,11 @@ RUN go build -o /yag .
 
 FROM debian:bookworm-slim
 
-# Copy built binary
+# Copy binary
 COPY --from=builder /yag /yag
 
-# Create entrypoint shell to inject Redis URL properly
-RUN echo '#!/bin/sh\nexec /yag -all -web -pa -redis "$REDIS_URL"' > /entrypoint.sh && chmod +x /entrypoint.sh
+# Use Railway's REDIS_URL and rename it at runtime
+RUN echo '#!/bin/sh\nexport REDIS="$REDIS_URL"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 
