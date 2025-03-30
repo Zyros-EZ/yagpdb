@@ -12,7 +12,6 @@ import (
 	"github.com/botlabs-gg/yagpdb/v2/lib/confusables"
 	"github.com/botlabs-gg/yagpdb/v2/trivia"
 	"github.com/botlabs-gg/yagpdb/v2/web/discorddata"
-
 	"github.com/botlabs-gg/yagpdb/v2/admin"
 	"github.com/botlabs-gg/yagpdb/v2/bot/paginatedmessages"
 	"github.com/botlabs-gg/yagpdb/v2/common/internalapi"
@@ -48,10 +47,7 @@ import (
 )
 
 func main() {
-	// Set Redis explicitly (important for Railway to avoid defaulting to localhost)
-	os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
-
-	// Ensure it binds to the right port for Railway
+	// Ensure proper binding on Railway
 	port := os.Getenv("PORT")
 	if port != "" {
 		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
@@ -59,8 +55,6 @@ func main() {
 
 	run.Init()
 
-
-	// ✅ Register plugins
 	paginatedmessages.RegisterPlugin()
 	discorddata.RegisterPlugin()
 	analytics.RegisterPlugin()
@@ -99,10 +93,6 @@ func main() {
 	prom.RegisterPlugin()
 	featureflags.RegisterPlugin()
 	trivia.RegisterPlugin()
-
-	// ✅ Init confusables
 	confusables.Init()
-
-	// 🔁 Start
 	run.Run()
 }
