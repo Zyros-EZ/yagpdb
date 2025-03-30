@@ -10,9 +10,9 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
-# Inject REDIS env var for the app (no -redis flag!)
-ENV REDIS=redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599
+# Add wrapper to inject REDIS env before launch
+RUN echo '#!/bin/sh\nexport REDIS="redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 
-CMD ["/yag", "-all", "-web", "-pa"]
+ENTRYPOINT ["/entrypoint.sh"]
