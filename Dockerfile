@@ -10,6 +10,6 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
-EXPOSE 80 443
+EXPOSE 8080
 
 CMD ["/yag", "-all", "-web", "-pa"]
