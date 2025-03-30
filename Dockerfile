@@ -12,4 +12,4 @@ COPY --from=builder /yag /yag
 
 EXPOSE 80
 
-CMD ["/yag", "-all", "-web", "-exthttps"]
+CMD ["/yag", "-all", "-web", "-pa"]
