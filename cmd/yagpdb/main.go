@@ -50,7 +50,7 @@ import (
 
 func init() {
 	// ✅ Hardcode the Redis URL into YAGPDB's config directly
-	common.RedisURL = "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599"
+os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
 
 	// ✅ Bind to correct port on Railway
 	port := os.Getenv("PORT")
