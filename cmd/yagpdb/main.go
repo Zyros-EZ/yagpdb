@@ -47,23 +47,23 @@ import (
 )
 
 func main() {
-	// Get Redis URL from environment
-redisURL := os.Getenv("REDIS")
-fmt.Println("Using Redis URL:", redisURL) // Add this line for logging
+    // Use the REDIS environment variable for the Redis URL
+    redisURL := os.Getenv("REDIS")
+    if redisURL == "" {
+        fmt.Println("No Redis URL set in environment. Exiting...")
+        os.Exit(1)
+    }
 
-if redisURL == "" {
-    fmt.Println("No Redis URL set in environment. Exiting...")
-    os.Exit(1)
-}
+    // Ensure proper binding on Railway (for the PORT environment variable)
+    port := os.Getenv("PORT")
+    if port != "" {
+        os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
+    }
 
-// Ensure proper binding on Railway
-port := os.Getenv("PORT")
-if port != "" {
-    os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
-}
+    // Set Redis connection URL (this ensures it's using the correct Redis URL from the environment)
+    os.Setenv("REDIS", redisURL)
 
-// Set Redis connection URL (this ensures it's using the correct Redis URL from the environment)
-os.Setenv("REDIS", redisURL)
+    // Initialize YAGPDB
 
 
 	run.Init()
