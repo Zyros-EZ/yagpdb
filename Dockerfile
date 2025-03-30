@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-WORKDIR /app/yagpdb
+WORKDIR /app/cmd/yagpdb
 
-RUN go build -o /yag .
+RUN go build -o /yag
 
 FROM debian:bullseye-slim
 
