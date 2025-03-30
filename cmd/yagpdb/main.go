@@ -48,17 +48,17 @@ import (
 )
 
 func main() {
-	// ✅ Hardcoded REDIS URL to override default localhost
+	// Set Redis explicitly (important for Railway to avoid defaulting to localhost)
 	os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
 
-	// ✅ Set web listen address for Railway port
+	// Ensure it binds to the right port for Railway
 	port := os.Getenv("PORT")
 	if port != "" {
 		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
 	}
 
-	// 🔁 Init core systems
 	run.Init()
+
 
 	// ✅ Register plugins
 	paginatedmessages.RegisterPlugin()
