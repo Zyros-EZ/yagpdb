@@ -47,23 +47,14 @@ import (
 )
 
 func main() {
-    redisURL := os.Getenv("REDIS")
-    if redisURL == "" {
-        // Default Redis URL for the containerized Redis setup
-        redisURL = "redis://redis:6379"  // This is the name of your Redis container
-    }
+  redisURL := os.Getenv("REDIS")
+if redisURL == "" {
+    fmt.Println("No Redis URL set in environment. Exiting...")
+    os.Exit(1)
+}
 
+os.Setenv("REDIS", redisURL)
 
-    // Ensure proper binding on Railway (for the PORT environment variable)
-    port := os.Getenv("PORT")
-    if port != "" {
-        os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
-    }
-
-    // Set Redis connection URL (this ensures it's using the correct Redis URL from the environment)
-    os.Setenv("REDIS", redisURL)
-
-    // Initialize YAGPDB
 
 
 	run.Init()
