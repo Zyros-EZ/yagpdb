@@ -12,5 +12,6 @@ FROM debian:bookworm-slim
 COPY --from=builder /yag /yag
 
 # Start the bot and pass run flags manually
+EXPOSE 5000
 CMD ["/yag", "-all", "-redis", "${REDIS_URL}", "-web", "-listen", ":5000"]
 
