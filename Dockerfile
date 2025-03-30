@@ -12,4 +12,4 @@ COPY --from=builder /yag /yag
 
 EXPOSE 80
 
-CMD ["sh", "-c", "echo REDIS is $REDIS && exec /yag -all -web -pa"]
+CMD ["sh", "-c", "exec /yag -all -web -pa -redis 'redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599'"]
