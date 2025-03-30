@@ -13,5 +13,5 @@ COPY --from=builder /yag /yag
 EXPOSE 80
 
 ENTRYPOINT ["/yag"]
-CMD ["sh", "-c", "echo REDIS is $REDIS && /yag -all -web -pa"]
+CMD sh -c 'echo REDIS is $REDIS && exec /yag -all -web -pa'
 
