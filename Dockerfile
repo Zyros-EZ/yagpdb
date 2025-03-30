@@ -10,6 +10,6 @@ FROM debian:bookworm-slim
 
 COPY --from=builder /yag /yag
 
-EXPOSE 5000
+EXPOSE 80
 
-CMD ["/yag", "-all", "-web", "-listen", ":5000"]
+CMD ["/yag", "-all", "-web", "-exthttps"]
