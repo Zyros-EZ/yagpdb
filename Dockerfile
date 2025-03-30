@@ -1,15 +1,12 @@
 FROM golang:1.23 as builder
 
 WORKDIR /app
-
 COPY . .
 
 WORKDIR /app/cmd/yagpdb
-
 RUN go build -o /yag
 
-FROM debian:bullseye-slim
-
+FROM debian:bookworm-slim
 COPY --from=builder /yag /yag
 
 ENV DATABASE_URL=$DATABASE_URL
