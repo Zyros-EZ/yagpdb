@@ -12,7 +12,8 @@ FROM debian:bookworm-slim
 COPY --from=builder /yag /yag
 
 # Start the bot and pass run flags manually
-EXPOSE 5000
-CMD ["/yag", "-all", "-web", "-listen", ":5000"]
+EXPOSE 80
+CMD ["/yag", "-all", "-web", "-pa"]
+
 
 
