@@ -11,7 +11,7 @@ FROM debian:bookworm-slim
 # Copy binary
 COPY --from=builder /yag /yag
 
-# Use Railway's REDIS_URL and rename it at runtime
+# Write entrypoint script that sets REDIS from REDIS_URL
 RUN echo '#!/bin/sh\nexport REDIS="$REDIS_URL"\nexec /yag -all -web -pa' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
