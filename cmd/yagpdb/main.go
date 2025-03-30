@@ -7,19 +7,19 @@ import (
 	"github.com/botlabs-gg/yagpdb/v2/analytics"
 	"github.com/botlabs-gg/yagpdb/v2/antiphishing"
 	"github.com/botlabs-gg/yagpdb/v2/common/featureflags"
+	"github.com/botlabs-gg/yagpdb/v2/common/internalapi"
 	"github.com/botlabs-gg/yagpdb/v2/common/prom"
 	"github.com/botlabs-gg/yagpdb/v2/common/run"
+	"github.com/botlabs-gg/yagpdb/v2/common/scheduledevents2"
 	"github.com/botlabs-gg/yagpdb/v2/lib/confusables"
 	"github.com/botlabs-gg/yagpdb/v2/trivia"
 	"github.com/botlabs-gg/yagpdb/v2/web/discorddata"
 
 	"github.com/botlabs-gg/yagpdb/v2/admin"
-	"github.com/botlabs-gg/yagpdb/v2/bot/paginatedmessages"
-	"github.com/botlabs-gg/yagpdb/v2/common/internalapi"
-	"github.com/botlabs-gg/yagpdb/v2/common/scheduledevents2"
 	"github.com/botlabs-gg/yagpdb/v2/automod"
 	"github.com/botlabs-gg/yagpdb/v2/automod_legacy"
 	"github.com/botlabs-gg/yagpdb/v2/autorole"
+	"github.com/botlabs-gg/yagpdb/v2/bot/paginatedmessages"
 	"github.com/botlabs-gg/yagpdb/v2/cah"
 	"github.com/botlabs-gg/yagpdb/v2/commands"
 	"github.com/botlabs-gg/yagpdb/v2/customcommands"
@@ -48,12 +48,21 @@ import (
 )
 
 func main() {
+	// Configure Railway-provided port if available
+	port := os.Getenv("PORT")
+	if port != "" {
+		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
+	}
+
+	// Hardcode Redis URL as env var
+	os.Setenv("REDIS", "redis://default:uRwvXdiZXBexHcKlJHQWmMPqzRebBtIt@interchange.proxy.rlwy.net:27599")
+
+	// Init the app
 	run.Init()
 
+	// Register plugins
 	paginatedmessages.RegisterPlugin()
 	discorddata.RegisterPlugin()
-
-	// Setup plugins
 	analytics.RegisterPlugin()
 	safebrowsing.RegisterPlugin()
 	antiphishing.RegisterPlugin()
@@ -93,11 +102,6 @@ func main() {
 
 	confusables.Init()
 
-	// ✅ Set web listen address for Railway
-	port := os.Getenv("PORT")
-	if port != "" {
-		os.Setenv("YAGPDB_LISTEN_ADDRESS", fmt.Sprintf("0.0.0.0:%s", port))
-	}
-
+	// Start app
 	run.Run()
 }
